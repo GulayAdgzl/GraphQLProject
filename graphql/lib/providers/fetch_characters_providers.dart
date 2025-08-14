@@ -9,7 +9,23 @@ class FetchCharactersProvider extends StateNotifier<FetchCharactersState> {
     state = FetchCharactersState.fetching();
     try {
       Dio dio = Dio();
-      var response = await dio.post('https://rickandmortyapi.com/graphql');
+      var response = await dio.post(
+        'https://rickandmortyapi.com/graphql',
+        data: {
+          'query': '''
+        query {
+          characters {
+            results {
+              id
+              name
+              image
+              status
+            }
+          }
+        }
+      '''
+        },
+      );
     } on DioException catch (e) {
       state = FetchCharactersState.failed(e.message!);
     } catch (e) {
