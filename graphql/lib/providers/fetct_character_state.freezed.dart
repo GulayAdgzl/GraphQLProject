@@ -79,20 +79,69 @@ class _Fetching implements FetchCharactersState {
 /// @nodoc
 
 class _Fetched implements FetchCharactersState {
-  _Fetched();
+  _Fetched(final List<Character> characters) : _characters = characters;
+
+  final List<Character> _characters;
+  List<Character> get characters {
+    if (_characters is EqualUnmodifiableListView) return _characters;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_characters);
+  }
+
+  /// Create a copy of FetchCharactersState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @pragma('vm:prefer-inline')
+  _$FetchedCopyWith<_Fetched> get copyWith =>
+      __$FetchedCopyWithImpl<_Fetched>(this, _$identity);
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _Fetched);
+        (other.runtimeType == runtimeType &&
+            other is _Fetched &&
+            const DeepCollectionEquality()
+                .equals(other._characters, _characters));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode => Object.hash(
+      runtimeType, const DeepCollectionEquality().hash(_characters));
 
   @override
   String toString() {
-    return 'FetchCharactersState.fetched()';
+    return 'FetchCharactersState.fetched(characters: $characters)';
+  }
+}
+
+/// @nodoc
+abstract mixin class _$FetchedCopyWith<$Res>
+    implements $FetchCharactersStateCopyWith<$Res> {
+  factory _$FetchedCopyWith(_Fetched value, $Res Function(_Fetched) _then) =
+      __$FetchedCopyWithImpl;
+  @useResult
+  $Res call({List<Character> characters});
+}
+
+/// @nodoc
+class __$FetchedCopyWithImpl<$Res> implements _$FetchedCopyWith<$Res> {
+  __$FetchedCopyWithImpl(this._self, this._then);
+
+  final _Fetched _self;
+  final $Res Function(_Fetched) _then;
+
+  /// Create a copy of FetchCharactersState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  $Res call({
+    Object? characters = null,
+  }) {
+    return _then(_Fetched(
+      null == characters
+          ? _self._characters
+          : characters // ignore: cast_nullable_to_non_nullable
+              as List<Character>,
+    ));
   }
 }
 
