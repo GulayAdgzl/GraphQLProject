@@ -11,7 +11,6 @@ A Flutter application that displays characters from the Rick and Morty TV series
 - 🌐 GraphQL integration with Dio HTTP client
 - 💫 Loading states and error handling
 
-## Screenshots
 
 The app displays a list of Rick and Morty characters with:
 - Character images
