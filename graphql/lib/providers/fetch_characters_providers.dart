@@ -3,8 +3,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:graphql/models/characters/character.dart';
 import 'package:graphql/providers/fetct_character_state.dart';
 
-final fetchCharactersProvider = StateNotifierProvider(
-    (ref) => FetchCharactersProvider(FetchCharactersState.initial()));
+final fetchCharactersProvider =
+    StateNotifierProvider<FetchCharactersProvider, FetchCharactersState>(
+        (ref) => FetchCharactersProvider(FetchCharactersState.initial())
+          ..fetchCharacters());
 
 class FetchCharactersProvider extends StateNotifier<FetchCharactersState> {
   FetchCharactersProvider(super.state);
