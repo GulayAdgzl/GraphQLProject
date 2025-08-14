@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:graphql/models/characters/character.dart';
 import 'package:graphql/providers/fetct_character_state.dart';
 
 class FetchCharactersProvider extends StateNotifier<FetchCharactersState> {
@@ -13,18 +14,23 @@ class FetchCharactersProvider extends StateNotifier<FetchCharactersState> {
         'https://rickandmortyapi.com/graphql',
         data: {
           'query': '''
-        query {
-          characters {
-            results {
-              id
-              name
-              image
-              status
+            query {
+              characters {
+                results {
+                  id
+                  name
+                  image
+                  status
+                }
+              }
             }
-          }
-        }
-      '''
+          '''
         },
+      );
+
+      dynamic responseData = response.data['data']['characters']['results'];
+      state = FetchCharactersState.fetched(
+        responseData.map((e) => Character.fromJson(e)).toList(),
       );
     } on DioException catch (e) {
       state = FetchCharactersState.failed(e.message!);
